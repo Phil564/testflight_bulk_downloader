@@ -9,7 +9,7 @@ from zipfile import ZipFile
 endpoints = ["http://builds.testflightapp.com.s3.amazonaws.com/","https://d193ln56du8muy.cloudfront.net/ipas/","https://d193ln56du8muy.cloudfront.net/uploads/","https://d3qktfj96j46kx.cloudfront.net/"]
 useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 OPR/104.0.0.0"
 
-fl = open("filelist.txt", "w") # weird bypass to create file or something
+fl = open("filelist.txt", "a+") # weird bypass to create file or something
 fl.close()
 os.makedirs("ipas", exist_ok=True)
 os.makedirs("ipas_dl", exist_ok=True)
