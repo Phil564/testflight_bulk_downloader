@@ -6,7 +6,7 @@
 import urllib, json, http.client, requests, os, io, shutil, time, plistlib, fnmatch
 from urllib.parse import urlparse
 from zipfile import ZipFile
-endpoints = ["http://d3qktfj96j46kx.cloudfront.net/","http://d193ln56du8muy.cloudfront.net/","http://builds.testflightapp.com.s3.amazonaws.com/"]
+endpoints = ["http://d193ln56du8muy.cloudfront.net/ipas/,"http://d3qktfj96j46kx.cloudfront.net/desktop_app_uploads/","http://d193ln56du8muy.cloudfront.net/uploads/","http://builds.testflightapp.com.s3.amazonaws.com/"]
 useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36 OPR/104.0.0.0"
 
 fl = open("filelist.txt", "a+") # weird bypass to create file or something
