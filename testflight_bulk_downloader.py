@@ -20,7 +20,7 @@ urllib.request.install_opener(opener)
 
 def dl_ipa(ipai):
     if (ipai[2] != "original"):
-        ipaurl = "http://web.archive.org/web/"+ipai[1]+"oe_/"+ipai[2]
+        ipaurl = "http://web.archive.org/web/"+ipai[1]+"id_/"+ipai[2] # i would use oe_
         a = urlparse(ipai[2])
         filename=os.path.basename(a.path)
         try:
