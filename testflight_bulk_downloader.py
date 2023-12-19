@@ -38,29 +38,29 @@ def dl_ipa(ipai):
                         info_plist = fnmatch.filter(files, "Payload/*.app/Info.plist")[0]
                         print("[DOWNLOADER] plist Path: "+info_plist)
                         ipa_zip.extract(info_plist)
+                        with open(info_plist, 'rb') as infile:
+                            plist = plistlib.load(infile)
+                        try:
+                            newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleShortVersionString"]+" "+plist["CFBundleVersion"]+"_"+filename
+                        except KeyError as ke2:
+                            try:
+                                if 'CFBundleDisplayName' in str(ke2):
+                                    try:
+                                        newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleShortVersionString"]+" "+plist["CFBundleVersion"]+"_"+filename
+                                    except KeyError as ke3:
+                                        if 'CFBundleShortVersionString' in str(ke3):
+                                            newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleVersion"]+"_"+filename
+                                        elif 'CFBundleVersion' in str(ke3):
+                                            newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleShortVersionString"]+"_"+filename
+                                elif 'CFBundleShortVersionString' in str(ke2):
+                                    newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleVersion"]+"_"+filename
+                                elif 'CFBundleVersion' in str(ke2):
+                                    newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleShortVersionString"]+"_"+filename
+                            except KeyError as ke4:
+                                print('[ERROR] Unable to set app name. Error: '+str(ke4))
+                                newfilename = filename
                     except Exception as ke1:
                         print('[ERROR] plist Path invalid. Error: '+str(ke1))
-                        newfilename = filename
-                with open(info_plist, 'rb') as infile:
-                    plist = plistlib.load(infile)
-                try:
-                    newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleShortVersionString"]+" "+plist["CFBundleVersion"]+"_"+filename
-                except KeyError as ke2:
-                    try:
-                        if 'CFBundleDisplayName' in str(ke2):
-                            try:
-                                newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleShortVersionString"]+" "+plist["CFBundleVersion"]+"_"+filename
-                            except KeyError as ke3:
-                                if 'CFBundleShortVersionString' in str(ke3):
-                                    newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleVersion"]+"_"+filename
-                                elif 'CFBundleVersion' in str(ke3):
-                                    newfilename = plist["CFBundleIdentifier"]+"_"+plist["CFBundleShortVersionString"]+"_"+filename
-                        elif 'CFBundleShortVersionString' in str(ke2):
-                            newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleVersion"]+"_"+filename
-                        elif 'CFBundleVersion' in str(ke2):
-                            newfilename = format_filename(plist["CFBundleDisplayName"])+" ("+plist["CFBundleIdentifier"]+")_"+plist["CFBundleShortVersionString"]+"_"+filename
-                    except KeyError as ke4:
-                        print('[ERROR] Unable to set app name. Error: '+str(ke4))
                         newfilename = filename
                 shutil.move(filename,"./ipas/"+newfilename)
                 dlinfo = open("./ipas_dl/"+newfilename+"_dlinfo.txt", "w")
